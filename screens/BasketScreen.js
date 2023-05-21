@@ -22,7 +22,7 @@ const BasketScreen = () => {
   const basketTotal = useSelector(selectBasketTotal)
   const [groupedItemsInBasket, setGroupedItemsInBasket] = useState([]);
   const dispatch = useDispatch();
-
+  console.log(items);
   useMemo(() => {
     const groupedItems = items?.reduce((results, item) => {
       (results[item.id] = results[item.id] || []).push(item);
@@ -91,9 +91,15 @@ const BasketScreen = () => {
             ₹ {basketTotal+20.05}
             </Text>
           </View>
+          {items.length === 0 ? (
+            <TouchableOpacity disabled={true} className="rounded-lg bg-[#599691] p-4">
+              <Text className="text-center text-white text-lg font-bold">Place Order</Text>
+            </TouchableOpacity>
+          ) : (
           <TouchableOpacity onPress={()=>navigation.navigate("PreparingOrder")} className="rounded-lg bg-[#00ccbb] p-4">
             <Text className="text-center text-white text-lg font-bold">Place Order</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

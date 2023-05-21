@@ -1,20 +1,30 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Button } from "react-native";
 import React, { useState } from "react";
 import { urlFor } from "../sanity";
 import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToBasket,
+  checkRestaurant,
   removeFromBasket,
   selectBasketItemsWithId,
 } from "../features/basketSlice";
+import Dialog, { DialogButton, DialogContent, DialogTitle, ScaleAnimation } from "react-native-popup-dialog";
 
-const DishRow = ({ id, name, description, price, image }) => {
+const DishRow = ({ id, name, description, price, image, restaurant }) => {
   const [isPressed, setIsPressed] = useState(false);
   const items = useSelector((state) => selectBasketItemsWithId(state, id));
+  const Restaurant = useSelector((state) => checkRestaurant(state, restaurant));
+  const [scaleAnimationDialog, setScaleAnimationDialog] = useState(false);
+  console.log("Restaurant",Restaurant);
   const dispatch = useDispatch();
   const addItemToBasket = () => {
-    dispatch(addToBasket({ id, name, description, price, image }));
+    if (Restaurant.length === 0)
+      dispatch(addToBasket({ id, name, description, price, image, restaurant }));
+    else if (Restaurant.includes(restaurant))
+      dispatch(addToBasket({ id, name, description, price, image, restaurant }));
+    else
+      setScaleAnimationDialog(true);
   };
 
   const removeItemFromBasket = () => {
@@ -22,6 +32,9 @@ const DishRow = ({ id, name, description, price, image }) => {
       dispatch(removeFromBasket({ id }));
     } else return;
   };
+
+
+  
   return (
     <>
       <TouchableOpacity
@@ -44,6 +57,50 @@ const DishRow = ({ id, name, description, price, image }) => {
           </View>
         </View>
       </TouchableOpacity>
+      <Dialog
+          onTouchOutside={() => {
+            setScaleAnimationDialog(false);
+          }}
+          width={0.9}
+          visible={scaleAnimationDialog}
+          dialogAnimation={new ScaleAnimation()}
+          onHardwareBackPress={() => {
+            setScaleAnimationDialog(false);
+            console.log('onHardwareBackPress');
+            return true;
+          }}
+          dialogTitle={
+            <DialogTitle
+              title="Cannot Select"
+              hasTitleBar={false}
+              className="font-bold text-center"
+            />
+          }
+          actions={[
+            <DialogButton
+              text="DISMISS"
+              onPress={() => {
+                setScaleAnimationDialog(false);
+              }}
+              key="button-1"
+            />,
+          ]}>
+          <DialogContent>
+            <View>
+              <Text className="text-sm pb-6">
+              You cannot select items from different restaurants. Please  
+              remove the items from the cart to add items from this restaurant.
+              </Text>
+              <Button
+                title="Close"
+                onPress={() => {
+                  setScaleAnimationDialog(false);
+                }}
+                key="button-1"
+              />
+            </View>
+          </DialogContent>
+        </Dialog>
       {isPressed && (
         <View className="bg-white px-4">
           <View className="flex-row items-center space-x-2 pb-3">
