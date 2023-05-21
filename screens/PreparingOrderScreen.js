@@ -13,8 +13,8 @@ const PreparingOrderScreen = () => {
     },[])
   return (
     <View style={styles.container} className="bg-[#00ccbb] flex-1 justify-center items-center">
-          <Animation.Image source={require("../assets/orderLoading.gif")} animation="slideInDown" className="h-96 w-96" />
-          <Animation.Text animation="slideInUp" iterationCount={1} className="text-lg my-10 text-white text-center font-bold">Waiting for Restaurant to accept your order!</Animation.Text>
+          <Animation.Image source={require("../assets/orderLoading.gif")} animation="slideInDown" className="h-80 w-80" />
+          <Animation.Text animation="slideInUp" iterationCount={1} className="text-md my-10 text-white text-center font-bold">Waiting for Restaurant to accept your order!</Animation.Text>
           <Progress.Circle size={60} indeterminate={true} color="#fff" />
     </View>
   )
