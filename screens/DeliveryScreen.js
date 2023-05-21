@@ -30,7 +30,7 @@ const DeliveryScreen = () => {
           <View className="flex-row justify-between">
             <View>
               <Text className="text-lg text-gray-400">Estimated Arrival</Text>
-              <Text className="text-3xl font-bold">45-55 Minutes</Text>
+              <Text className="text-4xl font-bold">45-55 Minutes</Text>
             </View>
             <Image
               source={{ uri: "https://links.papareact.com/fls" }}
@@ -73,9 +73,7 @@ const DeliveryScreen = () => {
           <Text className="text-lg">Karthik Emmadi</Text>
           <Text className="text-gray-400">Your Rider</Text>
         </View>
-        <TouchableOpacity>
-          <Text className="text-[#00ccbb] font-bold text-lg mr-5">Call</Text>
-          </TouchableOpacity>
+        <Text className="text-[#00ccbb] font-bold text-lg mr-5">Call</Text>
       </View>
     </View>
   );

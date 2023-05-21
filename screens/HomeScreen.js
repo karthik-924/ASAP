@@ -50,7 +50,7 @@ const HomeScreen = () => {
   // console.log(featuredCategories);
 
   return (
-    <View className="bg-white pt-5 pb-10" style={styles.container}>
+    <View className="bg-white pt-5" style={styles.container}>
       <View className="flex-row pb-3 items-center mx-4 space-x-2">
         <Image
           source={{ uri: "https://links.papareact.com/wru" }}
